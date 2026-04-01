@@ -22,8 +22,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  console.log("Login submit triggered");
-  console.log("Sending data:", formData);
+  alert("handleSubmit triggered");
 
   try {
     const res = await axios.post(
@@ -31,7 +30,7 @@ function Login() {
       formData
     );
 
-    console.log("Login success:", res.data);
+    alert("Login success");
 
     alert(res.data.message);
     localStorage.setItem("token", res.data.token);
@@ -42,10 +41,6 @@ function Login() {
       password: "",
     });
   } catch (error) {
-    console.log("Full error:", error);
-    console.log("Error response:", error.response);
-    console.log("Error message:", error.message);
-
     alert(error.response?.data?.message || error.message || "Error");
   }
 };
