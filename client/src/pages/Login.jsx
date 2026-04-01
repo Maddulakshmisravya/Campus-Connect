@@ -8,10 +8,8 @@ function Login() {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
-  console.log("Login page loaded");
-  alert("Login page loaded");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,36 +18,35 @@ function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  alert("handleSubmit triggered");
+  const handleSubmit = async () => {
+    alert("handleSubmit triggered");
 
-  try {
-    const res = await axios.post(
-      "https://campus-connect-rype.onrender.com/api/auth/login",
-      formData
-    );
+    try {
+      const res = await axios.post(
+        "https://campus-connect-rype.onrender.com/api/auth/login",
+        formData
+      );
 
-    alert("Login success");
+      alert("Login success");
 
-    alert(res.data.message);
-    localStorage.setItem("token", res.data.token);
-    navigate("/complete-profile");
+      localStorage.setItem("token", res.data.token);
+      navigate("/complete-profile");
 
-    setFormData({
-      email: "",
-      password: "",
-    });
-  } catch (error) {
-    alert(error.response?.data?.message || error.message || "Error");
-  }
-};
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log("Error:", error);
+      alert(error.response?.data?.message || error.message || "Error");
+    }
+  };
 
   return (
     <div>
       <Navbar />
       <div style={styles.container}>
-        <form style={styles.form} onSubmit={handleSubmit}>
+        <div style={styles.form}>
           <h2 style={styles.heading}>Login</h2>
 
           <input
@@ -70,10 +67,10 @@ function Login() {
             onChange={handleChange}
           />
 
-          <button style={styles.button} type="submit">
+          <button style={styles.button} onClick={handleSubmit}>
             Login
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
