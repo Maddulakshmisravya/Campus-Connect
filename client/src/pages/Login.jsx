@@ -10,6 +10,9 @@ function Login() {
   });
   const navigate = useNavigate();
 
+  console.log("Login page loaded");
+  alert("Login page loaded");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
