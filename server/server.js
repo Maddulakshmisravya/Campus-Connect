@@ -9,10 +9,8 @@ const app = express();
 
 connectDB();
 
-app.use(cors({
-  origin: "https://campus-connect-d74m54c5x-maddu-lakshmi-sravya-s-projects.vercel.app",
-  credentials: true,
-}));
+// 🔥 TEMP FIX (allows all origins — best for debugging)
+app.use(cors());
 
 app.use(express.json());
 
