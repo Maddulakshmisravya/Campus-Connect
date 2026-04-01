@@ -9,35 +9,53 @@ function Signup() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setError("");
+    setMessage("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+    setError("");
+    setMessage("");
+
     try {
       const res = await axios.post(
         "https://campus-connect-rype.onrender.com/api/auth/signup",
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
-      alert(res.data.message);
+      setMessage(res.data.message || "Signup successful!");
+
       setFormData({
         name: "",
         email: "",
         password: "",
       });
     } catch (error) {
-  alert(
-    error.response?.data?.message ||
-    error.message ||
-    "Something went wrong during signup"
-  );
-}
+      setError(
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong during signup"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,6 +64,9 @@ function Signup() {
       <div style={styles.container}>
         <form style={styles.form} onSubmit={handleSubmit}>
           <h2 style={styles.heading}>Signup</h2>
+
+          {message && <p style={styles.success}>{message}</p>}
+          {error && <p style={styles.error}>{error}</p>}
 
           <input
             style={styles.input}
@@ -74,8 +95,16 @@ function Signup() {
             onChange={handleChange}
           />
 
-          <button style={styles.button} type="submit">
-            Signup
+          <button
+            style={{
+              ...styles.button,
+              opacity: loading ? 0.7 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Signing up..." : "Signup"}
           </button>
         </form>
       </div>
@@ -117,7 +146,18 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     fontSize: "16px",
-    cursor: "pointer",
+  },
+  success: {
+    color: "green",
+    textAlign: "center",
+    fontSize: "14px",
+    margin: 0,
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    fontSize: "14px",
+    margin: 0,
   },
 };
 
