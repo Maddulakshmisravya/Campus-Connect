@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
         .json({ message: "Email and password are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });
@@ -71,8 +71,9 @@ const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
+  console.log("LOGIN ERROR:", error);
+  res.status(500).json({ message: "Server error", error: error.message });
+}
 };
 const getAllUsers = async (req, res) => {
   try {
