@@ -18,26 +18,34 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  console.log("Login submit triggered");
+  console.log("Sending data:", formData);
 
-    try {
-      const res = await axios.post(
-        "https://campus-connect-rype.onrender.com/api/auth/login",
-        formData
-      );
+  try {
+    const res = await axios.post(
+      "https://campus-connect-rype.onrender.com/api/auth/login",
+      formData
+    );
 
-      alert(res.data.message);
-      localStorage.setItem("token", res.data.token);
-      navigate("/complete-profile");
+    console.log("Login success:", res.data);
 
-      setFormData({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      alert(error.response?.data?.message || "Error");
-    }
-  };
+    alert(res.data.message);
+    localStorage.setItem("token", res.data.token);
+    navigate("/complete-profile");
+
+    setFormData({
+      email: "",
+      password: "",
+    });
+  } catch (error) {
+    console.log("Full error:", error);
+    console.log("Error response:", error.response);
+    console.log("Error message:", error.message);
+
+    alert(error.response?.data?.message || error.message || "Error");
+  }
+};
 
   return (
     <div>
