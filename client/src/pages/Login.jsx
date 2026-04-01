@@ -9,6 +9,10 @@ function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,29 +20,41 @@ function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setError("");
+    setMessage("");
   };
 
   const handleSubmit = async () => {
-    alert("handleSubmit triggered");
+    setLoading(true);
+    setError("");
+    setMessage("");
 
     try {
       const res = await axios.post(
         "https://campus-connect-rype.onrender.com/api/auth/login",
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
-      alert("Login success");
-
+      setMessage("Login successful!");
       localStorage.setItem("token", res.data.token);
-      navigate("/complete-profile");
 
       setFormData({
         email: "",
         password: "",
       });
+
+      setTimeout(() => {
+        navigate("/complete-profile");
+      }, 1000);
     } catch (error) {
-      console.log("Error:", error);
-      alert(error.response?.data?.message || error.message || "Error");
+      setError(error.response?.data?.message || error.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +64,9 @@ function Login() {
       <div style={styles.container}>
         <div style={styles.form}>
           <h2 style={styles.heading}>Login</h2>
+
+          {message && <p style={styles.success}>{message}</p>}
+          {error && <p style={styles.error}>{error}</p>}
 
           <input
             style={styles.input}
@@ -67,8 +86,16 @@ function Login() {
             onChange={handleChange}
           />
 
-          <button style={styles.button} onClick={handleSubmit}>
-            Login
+          <button
+            style={{
+              ...styles.button,
+              opacity: loading ? 0.7 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </div>
       </div>
@@ -110,7 +137,18 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     fontSize: "16px",
-    cursor: "pointer",
+  },
+  success: {
+    color: "green",
+    textAlign: "center",
+    fontSize: "14px",
+    margin: 0,
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    fontSize: "14px",
+    margin: 0,
   },
 };
 
