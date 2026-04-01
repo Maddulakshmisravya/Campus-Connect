@@ -59,7 +59,7 @@ function CompleteProfile() {
       };
 
       const res = await axios.put(
-        "http://localhost:5000/api/auth/complete-profile",
+        "https://campus-connect-rype.onrender.com/api/auth/complete-profile",
         payload,
         {
           headers: {

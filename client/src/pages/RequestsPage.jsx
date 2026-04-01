@@ -11,7 +11,7 @@ function RequestsPage() {
       const token = localStorage.getItem("token");
 
       const receivedRes = await axios.get(
-        "http://localhost:5000/api/requests/received",
+        "https://campus-connect-rype.onrender.com/api/requests/received",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -20,7 +20,7 @@ function RequestsPage() {
       );
 
       const sentRes = await axios.get(
-        "http://localhost:5000/api/requests/sent",
+        "https://campus-connect-rype.onrender.com/api/requests/sent",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ function RequestsPage() {
       const token = localStorage.getItem("token");
 
       const res = await axios.put(
-        `http://localhost:5000/api/requests/update/${requestId}`,
+        `https://campus-connect-rype.onrender.com/api/requests/update/${requestId}`,
         { status },
         {
           headers: {

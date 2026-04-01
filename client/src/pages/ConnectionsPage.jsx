@@ -11,7 +11,7 @@ function ConnectionsPage() {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:5000/api/requests/connections",
+          "https://campus-connect-rype.onrender.com/api/requests/connections",
           {
             headers: {
               Authorization: `Bearer ${token}`,

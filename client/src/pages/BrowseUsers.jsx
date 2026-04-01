@@ -11,13 +11,13 @@ function BrowseUsers() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        `http://localhost:5000/api/auth/users?skill=${search}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  `https://campus-connect-rype.onrender.com/api/auth/users?skill=${search}`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
       setUsers(res.data);
     } catch (error) {
@@ -35,7 +35,7 @@ function BrowseUsers() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/requests/send",
+  "https://campus-connect-rype.onrender.com/api/requests/send",
         {
           receiverId,
           message: "Hi, let's connect!",
