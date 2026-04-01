@@ -9,7 +9,11 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://campus-connect-d74m54c5x-maddu-lakshmi-sravya-s-projects.vercel.app",
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
